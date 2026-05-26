@@ -83,17 +83,17 @@ body {
     height: clamp(24px, 2vw, 42px);
 }
 .auth-hero h1 {
-    font-size: clamp(2rem, 4vw, 4.8rem);
+    font-size: clamp(1.7rem, 2.9vw, 3.05rem);
     font-weight: 300;
     color: var(--paper);
-    letter-spacing: -0.045em;
-    line-height: 0.92;
-    margin-bottom: 0.8rem;
-    max-width: 980px;
+    letter-spacing: -0.018em;
+    line-height: 1.06;
+    margin-bottom: 0.7rem;
+    max-width: 760px;
     margin-inline: auto;
     text-wrap: balance;
 }
-.auth-hero h1 em { font-style: normal; font-weight: 700; color: var(--accent); }
+.auth-hero h1 em { font-style: normal; font-weight: 650; color: var(--accent); }
 .auth-hero p {
 
     max-width: 680px;
@@ -1696,8 +1696,8 @@ function fmtH(val) { return 'R$ ' + Math.round(val).toLocaleString('pt-BR') + '/
    1. Project URL: Settings > API > Project URL
    2. Publishable key / anon public: Settings > API > Project API keys
 */
-const SUPABASE_URL = 'COLE_AQUI_A_URL_DO_SUPABASE';
-const SUPABASE_ANON_KEY = 'COLE_AQUI_A_CHAVE_PUBLICA_ANON';
+const SUPABASE_URL = 'https://seowusebxomcgxupdopv.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_Am0IJLIXRX-sTpt6JccT2g_JBfux9AC';
 const SUPABASE_TABLE = 'calculator_profiles';
 
 let currentUser = null;
