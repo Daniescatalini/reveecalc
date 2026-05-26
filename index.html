@@ -72,6 +72,11 @@ body {
   background: radial-gradient(circle, rgba(171,191,150,0.12) 0%, transparent 70%);
 }
 .auth-hero-inner { position: relative; z-index: 1; padding: 0; }
+.auth-hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 /* Logo no auth hero */
 .auth-logo-img {
@@ -80,27 +85,28 @@ body {
   margin-bottom: 1.2rem;
 }
 .auth-logo-img svg {
-    height: clamp(24px, 2vw, 42px);
+    height: clamp(24px, 2vw, 42px) !important;
+    max-width: min(70vw, 520px);
+    opacity: 1;
 }
 .auth-hero h1 {
-    font-size: clamp(1.7rem, 2.9vw, 3.05rem);
+    font-size: clamp(1.45rem, calc(3.6vw - 9px), 3.25rem);
     font-weight: 300;
     color: var(--paper);
-    letter-spacing: -0.018em;
-    line-height: 1.06;
+    letter-spacing: -0.012em;
+    line-height: 1.08;
     margin-bottom: 0.7rem;
-    max-width: 760px;
+    max-width: 780px;
     margin-inline: auto;
     text-wrap: balance;
 }
-.auth-hero h1 em { font-style: normal; font-weight: 650; color: var(--accent); }
+.auth-hero h1 em { font-style: normal; font-weight: 720; color: var(--accent); }
 .auth-hero p {
-
     max-width: 680px;
 
     margin: 0 auto;
 
-    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    font-size: clamp(0.65rem, calc(1.2vw - 5px), 0.8rem);
 
     font-weight: 300;
 
@@ -339,6 +345,7 @@ body {
   line-height: 1.75;
   letter-spacing: 0.02em;
 }
+.hero-p-break { display: inline; }
 .hero-steps {
   display: flex;
   gap: 2rem;
@@ -1084,6 +1091,33 @@ select:focus { border-color: var(--accent); }
 
 @media (max-width: 768px) {
 
+    .auth-hero {
+        padding: 3.25rem 1.5rem 3rem !important;
+    }
+
+    .auth-hero h1 {
+        font-size: clamp(1.3rem, calc(8.2vw - 9px), 2.35rem);
+    }
+
+    .auth-logo-img {
+        margin-bottom: 1rem;
+    }
+
+    .auth-logo-img svg {
+        height: clamp(24px, 6vw, 34px) !important;
+        max-width: 78vw;
+    }
+
+    .hero p {
+        font-size: 12px;
+        max-width: 330px;
+        line-height: 1.65;
+    }
+
+    .hero-p-break {
+        display: block;
+    }
+
     #tab-projeto .card {
         padding: 1.25rem;
     }
@@ -1162,6 +1196,12 @@ select:focus { border-color: var(--accent); }
     }
 
     .etapa-table td input[type="number"] {
+        background: rgba(255,255,255,0.72);
+        border: 1px solid rgba(216,216,222,0.75);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+        min-width: 76px;
+        padding: 6px 12px;
+        text-align: right;
         width: 86px;
     }
 
@@ -1235,7 +1275,7 @@ select:focus { border-color: var(--accent); }
   <path class="cls-1" d="M631.48,79.75h-9.43v9.37h-5.78v-9.37h-9.37v-5.78h9.37v-9.37h5.78v9.37h9.43v5.78Z"/>
 </svg>
       </div>
-      <h1>Calculadora de Precificação<br><em> para Designers</em></h1>
+      <h1>Calculadora de Precificação<br><em>para Designers</em></h1>
       <p style="margin-top:0.75rem">Acesse sua conta para manter seus dados salvos</p>
     </div>
   </div>
@@ -1282,9 +1322,9 @@ select:focus { border-color: var(--accent); }
         <div id="authMsg"></div>
       </div>
       <p class="auth-note">Seus dados de custos ficam salvos e não precisam ser<br>preenchidos novamente a cada projeto.</p>
-    </div>
-  </div>
-</div>
+	    </div>
+	  </div>
+	</div>
 
 <!-- ═══════════════════════════════════
      APP SCREEN
@@ -1324,7 +1364,7 @@ select:focus { border-color: var(--accent); }
         </div>
       </div>
       <h1>Calculadora de<br>Precificação para<br><em>Designers</em></h1>
-      <p>Descubra quanto cobrar baseado nos seus custos reais, não em achismo.</p>
+      <p>Descubra quanto cobrar baseado nos <span class="hero-p-break">seus custos reais, não em achismo.</span></p>
       <div class="hero-steps">
         <div class="hero-step"><div class="hero-step-num">1</div>Seus custos mensais</div>
         <div class="hero-step-sep">→</div>
