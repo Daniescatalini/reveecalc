@@ -182,6 +182,38 @@ body {
   transition: border-color 0.15s;
 }
 .auth-field input:focus { border-color: var(--accent); }
+.password-wrap {
+  position: relative;
+}
+.password-wrap input {
+  padding-right: 44px;
+}
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.password-toggle:hover {
+  color: var(--ink-2);
+  background: rgba(16,29,3,0.05);
+}
+.password-toggle svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 1.7;
+}
 .auth-btn {
   width: 100%;
   padding: 13px;
@@ -477,6 +509,70 @@ body {
   text-align: right;
 }
 .field-full { grid-column: 1 / -1; }
+.custom-costs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.custom-cost-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(110px, 0.7fr) 32px;
+  gap: 8px;
+  align-items: center;
+}
+.custom-cost-row input {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.58);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.5);
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+  padding: 9px 10px;
+}
+.custom-cost-row input[type="number"] {
+  text-align: right;
+}
+.custom-cost-row input:focus {
+  border-color: var(--accent);
+}
+.custom-cost-remove,
+.custom-cost-add {
+  border: 1px solid rgba(255,255,255,0.62);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.46);
+  color: var(--ink-3);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s;
+}
+.custom-cost-remove {
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  line-height: 1;
+}
+.custom-cost-add {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.custom-cost-remove:hover,
+.custom-cost-add:hover {
+  border-color: rgba(171,191,150,0.7);
+  color: var(--ink);
+  background: rgba(255,255,255,0.66);
+}
+@media (max-width: 600px) {
+  .custom-cost-row { grid-template-columns: 1fr 92px 32px; }
+}
 
 /* SLIDER */
 .slider-field {
@@ -1304,7 +1400,15 @@ select:focus { border-color: var(--accent); }
         </div>
         <div class="auth-field">
           <label>Senha</label>
-          <input type="password" id="authPassword" placeholder="••••••••" autocomplete="current-password">
+          <div class="password-wrap">
+            <input type="password" id="authPassword" placeholder="••••••••" autocomplete="current-password">
+            <button class="password-toggle" type="button" onclick="togglePasswordVisibility('authPassword', this)" aria-label="Mostrar senha" title="Mostrar senha">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="auth-field" id="nameField" style="display:none">
           <label>Seu nome</label>
@@ -1312,7 +1416,15 @@ select:focus { border-color: var(--accent); }
         </div>
         <div class="auth-field" id="newPasswordField" style="display:none">
           <label>Nova senha</label>
-          <input type="password" id="authNewPassword" placeholder="Digite a nova senha" autocomplete="new-password">
+          <div class="password-wrap">
+            <input type="password" id="authNewPassword" placeholder="Digite a nova senha" autocomplete="new-password">
+            <button class="password-toggle" type="button" onclick="togglePasswordVisibility('authNewPassword', this)" aria-label="Mostrar senha" title="Mostrar senha">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
         </div>
         <button class="auth-btn" onclick="doAuth()" id="authSubmitBtn">Entrar</button>
         <button class="auth-link" type="button" id="forgotPasswordBtn" onclick="authMode('forgot')">Esqueci minha senha</button>
@@ -1397,13 +1509,17 @@ select:focus { border-color: var(--accent); }
           <div class="field"><label>Armazenamento em nuvem</label><div class="field-input-row"><span class="field-prefix">R$</span><input type="number" id="c_nuvem" value="30" min="0" oninput="onCustoChange()"></div></div>
           <div class="field"><label>Outros (saúde, lazer, etc.)</label><div class="field-input-row"><span class="field-prefix">R$</span><input type="number" id="c_outros" value="300" min="0" oninput="onCustoChange()"></div></div>
         </div>
+        <div class="custom-costs" style="margin-top:12px">
+          <div id="customCostsList"></div>
+          <button class="custom-cost-add" type="button" onclick="addCustomCost()">+ Adicionar custo personalizado</button>
+        </div>
       </div>
       <div class="card">
         <div class="card-title">Salário e reservas</div>
         <div class="field-grid">
           <div class="field">
             <label>Salário desejado</label>
-            <div class="label-sub">O que você quer guardar</div>
+            <div class="label-sub">O que você quer ganhar</div>
             <div class="field-input-row"><span class="field-prefix">R$</span><input type="number" id="c_salario" value="3000" min="0" oninput="onCustoChange()"></div>
           </div>
           <div class="field">
@@ -1820,6 +1936,15 @@ function setAuthLoading(isLoading) {
   }[authCurrentMode] || 'Entrar');
 }
 
+function togglePasswordVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const shouldShow = input.type === 'password';
+  input.type = shouldShow ? 'text' : 'password';
+  btn.setAttribute('aria-label', shouldShow ? 'Ocultar senha' : 'Mostrar senha');
+  btn.setAttribute('title', shouldShow ? 'Ocultar senha' : 'Mostrar senha');
+}
+
 function getAuthRedirectUrl() {
   return window.location.href.split('#')[0].split('?')[0];
 }
@@ -1946,6 +2071,7 @@ async function enterApp() {
   document.getElementById('appScreen').classList.add('visible');
   document.getElementById('userNameDisplay').textContent = currentUser.name;
   buildEtapaRows();
+  renderCustomCosts();
   await loadUserData();
   calc();
 }
@@ -1953,6 +2079,7 @@ async function enterApp() {
 /* DADOS SALVOS */
 const CUSTO_FIELDS = ['c_aluguel','c_internet','c_tools','c_assinaturas','c_nuvem','c_outros','c_salario','c_reserva','c_impostos','c_horas'];
 const PROJECT_FIELDS = ['tipo_projeto','margem','urgencia','complexidade','chk_desconto','pct_desconto','chk_parcela','taxa_mensal','max_parcelas'];
+let customCosts = [];
 
 function getAppState() {
   const state = {};
@@ -1961,6 +2088,7 @@ function getAppState() {
     if (!el) return;
     state[id] = el.type === 'checkbox' ? el.checked : el.value;
   });
+  state.custom_costs = getCustomCosts();
   ETAPAS.forEach(e => {
     const el = document.getElementById('h_' + e.id);
     if (el) state['h_' + e.id] = el.value;
@@ -1981,6 +2109,11 @@ function applyAppState(state = {}) {
       el.value = value;
     }
   });
+  customCosts = Array.isArray(state.custom_costs) ? state.custom_costs.map(item => ({
+    label: String(item?.label || ''),
+    value: Number(item?.value) || 0
+  })) : [];
+  renderCustomCosts();
   document.getElementById('c_horas_out').textContent = document.getElementById('c_horas').value + 'h';
   document.getElementById('margem_out').textContent = document.getElementById('margem').value + '%';
   isLoadingData = false;
@@ -2011,6 +2144,64 @@ async function loadUserData() {
 function onCustoChange() {
   calc();
   scheduleSaveUserData();
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char]));
+}
+
+function getCustomCosts() {
+  return customCosts
+    .map(item => ({
+      label: String(item.label || '').trim(),
+      value: Number(item.value) || 0
+    }))
+    .filter(item => item.label || item.value > 0);
+}
+
+function renderCustomCosts() {
+  const list = document.getElementById('customCostsList');
+  if (!list) return;
+  customCosts = customCosts.map(item => ({
+    label: String(item.label || ''),
+    value: Number(item.value) || 0
+  }));
+  list.innerHTML = customCosts.map((item, index) => `
+    <div class="custom-cost-row">
+      <input type="text" value="${escapeHtml(item.label)}" placeholder="Nome do custo" oninput="updateCustomCost(${index}, 'label', this.value)">
+      <div class="field-input-row">
+        <span class="field-prefix">R$</span>
+        <input type="number" value="${escapeHtml(item.value)}" min="0" placeholder="0" oninput="updateCustomCost(${index}, 'value', this.value)">
+      </div>
+      <button class="custom-cost-remove" type="button" onclick="removeCustomCost(${index})" aria-label="Remover custo">×</button>
+    </div>
+  `).join('');
+}
+
+function addCustomCost() {
+  customCosts.push({ label: '', value: 0 });
+  const list = document.getElementById('customCostsList');
+  renderCustomCosts();
+  const lastInput = list?.querySelector('.custom-cost-row:last-child input[type="text"]');
+  if (lastInput) lastInput.focus();
+}
+
+function updateCustomCost(index, key, value) {
+  if (!customCosts[index]) return;
+  customCosts[index][key] = key === 'value' ? Number(value) || 0 : value;
+  onCustoChange();
+}
+
+function removeCustomCost(index) {
+  customCosts.splice(index, 1);
+  renderCustomCosts();
+  onCustoChange();
 }
 
 function scheduleSaveUserData() {
@@ -2098,7 +2289,9 @@ function togglePagamento(tipo) {
 /* CÁLCULOS */
 function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function getTotalCustos() {
-  return v('c_aluguel')+v('c_internet')+v('c_tools')+v('c_assinaturas')+v('c_nuvem')+v('c_outros')+v('c_salario')+v('c_reserva')+v('c_impostos');
+  const base = v('c_aluguel')+v('c_internet')+v('c_tools')+v('c_assinaturas')+v('c_nuvem')+v('c_outros')+v('c_salario')+v('c_reserva')+v('c_impostos');
+  const personalizados = customCosts.reduce((total, item) => total + (Number(item.value) || 0), 0);
+  return base + personalizados;
 }
 function getCustoHora() { return getTotalCustos() / (v('c_horas') || 1); }
 
